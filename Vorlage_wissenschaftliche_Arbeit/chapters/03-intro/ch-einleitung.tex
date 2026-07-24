@@ -1,4 +1,15 @@
 \chapter{Einleitung}
-\label{sec:einl}
 
-Erläuterung der Aufgabenstellung und den Randbedingungen
+\section{Motivation und Problemstellung}
+
+Die kontinuierliche Erfassung von Fahrzeuggewichten im fließenden Verkehr gewinnt angesichts wachsender Güterverkehrsmengen und begrenzter Infrastrukturbudgets zunehmend an Bedeutung. Weigh-in-Motion-Systeme (WIM) ermöglichen es, Achslasten und Gesamtgewichte von Fahrzeugen ohne Unterbrechung des Verkehrsflusses zu bestimmen, und finden Anwendung in der Überladungskontrolle, der Straßenerhaltungsplanung sowie im Bereich der Verkehrsstatistik \cite{QFree2020}. Etablierte WIM-Technologien wie piezoelektrische Sensoren, Quarzsensoren oder Bending-Plate-Systeme erreichen dabei je nach Bauart Genauigkeiten zwischen $\pm 5\,\%$ und $\pm 15\,\%$ gemäß dem europäischen COST-323-Standard, erfordern jedoch aufwendige Eingriffe in die Fahrbahn und einen Installationsaufwand von mehreren Stunden pro Fahrspur \cite{QFree2020}.
+
+Diese Installationskomplexität sowie die damit verbundenen Kosten limitieren den breiten Einsatz klassischer WIM-Systeme, insbesondere auf Straßenabschnitten außerhalb des übergeordneten Fernstraßennetzes \cite{Adresi2024}. Als kostengünstigere Alternative wurden in der Forschung bereits vibrationsbasierte Ansätze untersucht, bei denen nicht die Fahrbahn selbst, sondern der angrenzende Untergrund als Messmedium dient: Ein am Fahrbahnrand platzierter Beschleunigungssensor erfasst dabei die vom passierenden Schwerlastverkehr induzierten Bodenschwingungen, aus denen sich Rückschlüsse auf das Fahrzeuggewicht ziehen lassen \cite{Bajwa:EECS-2013-210}. Erste Arbeiten in diesem Bereich, etwa das drahtlose WIM-System von Bajwa, konnten zeigen, dass sich mit einem solchen Verfahren Genauigkeiten erreichen lassen, die den Anforderungen des Long-Term Pavement Performance-Programms (LTPP) von $\pm 10\,\%$ entsprechen, bei gleichzeitig deutlich geringeren Anschaffungs- und Installationskosten im Vergleich zu konventionellen Systemen \cite{Bajwa:EECS-2013-210, Khalili2022}.
+
+\section{Zielsetzung}
+
+Im Rahmen des vorliegenden Studienprojekts wird ein Prototyp entwickelt, der über einen ADXL335-Beschleunigungssensor Bodenvibrationen am Fahrbahnrand erfasst. Ziel ist es, auf Basis dieser Vibrationsdaten in Kombination mit bereits am Testgelände vorhandenen Messgrößen -- Fahrzeuggeschwindigkeit und Achsanzahl -- eine Klassifikation vorbeifahrender Lastkraftwagen in zwei Gewichtskategorien, 10 Tonnen und 20 Tonnen, zu ermöglichen. Der Fokus liegt dabei nicht auf einer hochpräzisen kontinuierlichen Gewichtsmessung wie bei kommerziellen WIM-Anlagen, sondern auf einer robusten binären Unterscheidung als Grundlage für ein späteres, trainierbares Klassifikationsmodell.
+
+\section{Rahmenbedingungen und Aufbau der Arbeit}
+
+Das Projekt wurde im Rahmen einer Aufgabenstellung des betreuenden Professors innerhalb eines Zeitrahmens von zwei Wochen durchgeführt, was den Prototyp-Charakter der entwickelten Lösung sowie den iterativen, explorativen Charakter der gewählten Vorgehensweise erklärt. Die vorliegende Arbeit gliedert sich im Anschluss an diese Einleitung in ein Kapitel zu den theoretischen Grundlagen bestehender WIM-Technologien, eine Beschreibung des entwickelten Systemaufbaus, eine Darstellung der Projektentwicklung mit den aufgetretenen technischen Herausforderungen, die angewandte Methodik zur Datenerfassung und -klassifikation sowie eine abschließende Auswertung der Ergebnisse mit Diskussion und Ausblick.

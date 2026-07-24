@@ -6,3 +6,5 @@ Vorlage_wissenschaftliche_Arbeit/fig/*
 *.toc
 *.out
 *.lot
+*.bbl
+*.blg
