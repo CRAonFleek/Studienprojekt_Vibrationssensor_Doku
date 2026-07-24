@@ -1,7 +1,7 @@
 *.aux
 *.log
-*.pdf
 *.lof
+Vorlage_wissenschaftliche_Arbeit/fig/*
 *.gz
 *.toc
 *.out
