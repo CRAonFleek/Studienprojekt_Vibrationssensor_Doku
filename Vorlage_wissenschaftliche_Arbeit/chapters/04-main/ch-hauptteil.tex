@@ -1,31 +1,104 @@
-% Bsp. eines Hauptteils
-
 \chapter{Grundlagen}
-\label{sec:grundl}
-benötigte Voraussetzungen
+\label{sec:grundlagen}
+
+Dieses Kapitel vermittelt die für das Verständnis des Prototyps notwendigen Grundlagen. Nach einer kurzen Einordnung des Weigh-in-Motion-Konzepts liegt der Schwerpunkt auf den konkret verwendeten Werkzeugen: dem ADXL335-Beschleunigungssensor, dem zugehörigen SDP-B-Controller-Board, der Auswertesoftware sowie den beiden Hilfsprogrammen Sandboxie und AutoHotkey, die für die Durchführung der Messungen benötigt wurden.
+
+\section{Weigh-in-Motion: Kurzüberblick}
+\label{sec:grundlagen-wim}
+
+Weigh-in-Motion (WIM) bezeichnet ein Verfahren zur Bestimmung von Achslasten und Gesamtgewichten von Fahrzeugen im fließenden Verkehr, ohne dass der Verkehrsfluss unterbrochen werden muss \cite{QFree2020}. Klassische, fahrbahnintegrierte WIM-Systeme erreichen dabei Genauigkeiten zwischen $\pm 5\,\%$ und $\pm 15\,\%$ nach COST-323, während vibrationsbasierte Ansätze wie der von Bajwa auf den angrenzenden Untergrund als Messmedium zurückgreifen \cite{QFree2020, Bajwa:EECS-2013-210}. Das vorliegende Projekt setzt an diesem vibrationsbasierten Ansatz an, ohne selbst eine vollständige WIM-Anlage nachzubilden.
+
+\section{ADXL335-Beschleunigungssensor}
+\label{sec:grundlagen-adxl335}
+
+Der ADXL335 ist ein 3-Achsen-Beschleunigungssensor mit einem Messbereich von $\pm 3g$, der an seinen drei Ausgängen jeweils eine zur Beschleunigung proportionale analoge Spannung liefert \cite{ADXL335_Datasheet}. Er bildet die zentrale Messkomponente des im Rahmen dieses Projekts entwickelten Aufbaus zur Erfassung von Bodenvibrationen.
+
+% Platzhalter: Foto des ADXL335-Sensors bzw. des Sensoraufbaus am Fahrbahnrand
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.4\textwidth]{fig/EVAL-ADXL354BZANGLE-web}
+\caption{ADXL335-Beschleunigungssensor}
+\label{fig:adxl335-foto}
+\end{figure}
+
+\section{SDP-B Controller Board}
+\label{sec:grundlagen-sdpb}
+
+Das SDP-B Controller Board (EVAL-SDP-CB1Z) dient als Verbindungsglied zwischen dem ADXL335-Sensor und dem PC. Es basiert auf einem Analog Devices ADSP-BF527 Blackfin-Prozessor und stellt über zwei 120-Pin-Steckverbinder die Schnittstelle zur Sensor-Platine bereit, während die Kommunikation mit dem PC über eine USB-2.0-Verbindung erfolgt \cite{ADI_UG277}. Der Sensor wird über die 120-Pin-Verbindung mechanisch und elektrisch an das Board angeschlossen; das Board selbst wird anschließend per USB mit dem Laptop verbunden, auf dem die Auswertesoftware läuft \cite{ADI_UG277}.
+
+% Platzhalter: Foto des SDP-B Boards bzw. der Steckverbindung Sensor-Board
+\begin{figure}[htbp]
+\centering
+% \includegraphics[width=0.5\textwidth]{fig/sdp-b-board}
+\caption{SDP-B Controller Board mit angeschlossenem Sensor}
+\label{fig:sdpb-foto}
+\end{figure}
+
+\section{Auswertesoftware und Bedienoberfläche}
+\label{sec:grundlagen-software}
+
+% Platzhalter: Beschreibung der EVAL-ADXL35x-SDP-Software (GUI),
+% Erklärung Messstart und einstellbarer Parameter (z. B. Sample-Rate, Messbereich, Dauer)
+Die Auswertung der Sensordaten erfolgt über die zugehörige Bedienoberfläche der EVAL-ADXL35x-SDP-Plattform \cite{ADI_UG2190}. Über diese Oberfläche wird die Messung gestartet und Parameter wie Abtastrate, Messbereich und Aufzeichnungsdauer eingestellt (Platzhalter: genaue Parameterwerte gemäß später erhobener Konfiguration ergänzen).
+
+\begin{figure}[htbp]
+\centering
+% \includegraphics[width=0.8\textwidth]{bilder/eval_gui_screenshot.png}
+\caption{Bedienoberfläche der Auswertesoftware}
+\label{fig:gui-screenshot}
+\end{figure}
+
+\section{Messaufbau und Workflow}
+\label{sec:grundlagen-workflow}
+
+Der grundlegende Messaufbau ergibt sich aus dem Zusammenspiel der zuvor beschriebenen Komponenten: Der ADXL335-Sensor wird an das SDP-B-Board angeschlossen (Abschnitt~\ref{sec:grundlagen-sdpb}), welches wiederum über USB mit dem Laptop verbunden wird \cite{ADI_UG277}. Auf dem Laptop läuft die Auswertesoftware (Abschnitt~\ref{sec:grundlagen-software}), über die zunächst die Messparameter festgelegt werden, bevor die eigentliche Messung gestartet wird \cite{ADI_UG2190}. Nach Abschluss der Messung können sowohl die Rohmesswerte als auch eine grafische Darstellung des zeitlichen Signalverlaufs aus der Software exportiert werden. Dieser Ablauf -- Anschluss, Konfiguration, Messung, Export -- bildet den grundlegenden Workflow, der in den nachfolgenden Kapiteln bei jedem Testzyklus wiederkehrt.
+
+\section{Sandboxie}
+\label{sec:grundlagen-sandboxie}
+
+Sandboxie ist eine Isolationssoftware für Windows, die es ermöglicht, Anwendungen in voneinander getrennten, virtuellen Umgebungen (Sandboxes) parallel auszuführen \cite{Sandboxie2026}. Im Rahmen dieses Projekts war der Einsatz von Sandboxie notwendig, um für den später beschriebenen Dual-Sensor-Aufbau zwei Instanzen der Auswertesoftware gleichzeitig und unabhängig voneinander betreiben zu können; die konkrete Umsetzung wird in Abschnitt~\ref{sec:realisierung-dualsensor} beschrieben.
+
+\section{AutoHotkey}
+\label{sec:grundlagen-autohotkey}
+
+AutoHotkey ist eine frei verfügbare Scripting-Sprache für Windows, mit der sich wiederkehrende Bedienabläufe automatisieren und per Tastenkürzel auslösen lassen \cite{AutoHotkey2026}. Durch den Einsatz von AutoHotkey-Skripten konnten wiederkehrende Bedienschritte der Messsoftware automatisiert werden, wodurch sich die Effizienz der Messdurchläufe im Projektverlauf deutlich erhöhte.
+% Grobgerüst Realisierung -- stichpunktartig, noch nicht ausformuliert
 
 \chapter{Realisierung}
-\label{sec:real}
-Beschreibung der HW- und SW-Realisierung
+\label{sec:realisierung}
 
-\section{Unter-Kapitel in Realisierung}
-\label{sec:real-unter}
-Beispiel Text
+% Aufbau: iterative Testzyklen statt starrer Themen-Unterkapitel
+% Zyklusmuster pro Abschnitt:
+% 1. Nachdenken / Meeting -> Erkenntnisse aus vorherigem Zyklus
+% 2. Ideen / Probleme auflisten
+% 3. Umsetzung / Test
+% 4. Ergebnis -> Übergang zum nächsten Zyklus
 
+\section{Zyklus 1: [Kurztitel, z. B. Grundaufbau Einzelsensor]}
+\label{sec:realisierung-zyklus1}
+% - Ausgangspunkt: nur Sensor + Software (siehe Ausgangssituation, sec:einleitung-ausgangssituation)
+% - Anwendung des Grundworkflows aus sec:grundlagen-workflow
+% - Erste Testmessung, grundlegende Funktionsprüfung
+% - Erkannte Probleme / offene Fragen
+% - Daraus abgeleitete nächste Schritte
 
-\newpage
-\section{Weiteres Unter-Kapitel in Realisierung}
-\label{sec:real-unterWeiter}
+\section{Zyklus 2: [Kurztitel]}
+\label{sec:realisierung-zyklus2}
+% - Platzhalter für zweiten Iterationsschritt
 
-\newpage
-\section{Und noch ein Unter-Kapitel in Realisierung}
-\label{sec:real-unterWeiterNoch}
+\section{Zyklus n: Dual-Sensor-Aufbau mit Sandboxie}
+\label{sec:realisierung-dualsensor}
+% - Problem: zwei Sensor-Instanzen gleichzeitig betreiben
+% - Lösung: Sandboxie (siehe sec:grundlagen-sandboxie)
+% - Testdurchführung Dual-Sensor
+% - Ergebnis / offene Punkte
 
-\section{Literaturverweise}
-\label{sec:real-literatur}
-
-Verweise im Text: \cite{doc:stz} und \cite{doc:gun}.
+\section{Effizienzsteigerung durch AutoHotkey-Automatisierung}
+\label{sec:realisierung-autohotkey}
+% - Ausgangsproblem: manuelle Bedienschritte pro Messung zu langsam/fehleranfällig
+% - Umsetzung: AutoHotkey-Skripte (siehe sec:grundlagen-autohotkey)
+% - Effekt auf Messdurchsatz / Datenqualität
 
 \chapter{Ergebnisse}
-\label{sec:ergeb}
+\label{sec:ergebnisse}
 \enquote{Neuigkeiten} Messergebnisse
